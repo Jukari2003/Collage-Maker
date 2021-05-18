@@ -232,7 +232,7 @@ function main
     $numberTrackBarValue = $Global:default_pic_number
     $numberTrackBar.add_ValueChanged({
         $numberTrackBarValue = $numberTrackBar.Value
-        $numberTrackBarLabel.Text = "Number Images ($numberTrackBarValue)"
+        $numberTrackBarLabel.Text = "Number of Images ($numberTrackBarValue)"
         $Global:default_pic_number = $numberTrackBarValue
         save_settings
     })
@@ -242,9 +242,9 @@ function main
     ###########Picture Number Label
     $numberTrackBarLabel = New-Object System.Windows.Forms.Label 
     $numberTrackBarLabel.Location = "15,70"
-    $numberTrackBarLabel.Size = "180,23"
+    $numberTrackBarLabel.Size = "190,23"
     $numberTrackBarLabel.ForeColor = "White"
-    $numberTrackBarLabel.Text = "Number Images ($numberTrackBarValue)"
+    $numberTrackBarLabel.Text = "Number of Images ($numberTrackBarValue)"
     $mainForm.Controls.Add($numberTrackBarLabel)
 
     ##################################################################################
