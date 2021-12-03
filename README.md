@@ -13,7 +13,8 @@ Install Instructions:<br />
 &emsp;&emsp;&emsp;- Once PowerShell ISE is opened. Click the Green Play Arrow.<br />
 &emsp;&emsp;&emsp;- Success!<br />
 
-
+--------------------------------------------------------------------------------------------------------------------------------
+Settings Information:
 - Input Images Folder
   - Directory to pull images from
 - Number of Images 
