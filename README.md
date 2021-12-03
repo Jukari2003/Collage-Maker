@@ -1,5 +1,19 @@
 Creates Desktop Collages 
 
+![alt text](https://github.com/Jukari2003/Collage-Maker/blob/main/Preview.png?raw=true)
+
+
+Install Instructions:<br />
+&emsp;&emsp;&emsp;- Collage-Maker.zip from GitHub<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;- Top Right Hand Corner Click "Code"<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;- Select "Download Zip"<br />
+&emsp;&emsp;&emsp;- Extract Files to a desired location<br />
+&emsp;&emsp;&emsp;- Right Click on BB.ps1<br />
+&emsp;&emsp;&emsp;- Click "Edit"     (This should open up Collage-Maker in Powershell ISE)<br />
+&emsp;&emsp;&emsp;- Once PowerShell ISE is opened. Click the Green Play Arrow.<br />
+&emsp;&emsp;&emsp;- Success!<br />
+
+
 - Input Images Folder
   - Directory to pull images from
 - Number of Images 
