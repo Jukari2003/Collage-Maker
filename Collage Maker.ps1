@@ -1,7 +1,7 @@
 ﻿################################################################################
 #                                 Collage Maker                                #
 #                      Written By: MSgt Anthony Brechtel                       #
-#                                    Ver 2.1                                   #
+#                                    Ver 2.2                                   #
 #                                                                              #
 ################################################################################
 clear-host
@@ -444,7 +444,8 @@ function main
     [void]$imageComboBox.items.add("1366x768") 
     [void]$imageComboBox.items.add("1920x1200")
     [void]$imageComboBox.items.add("1920x1080")
-    [void]$imageComboBox.items.add("5120x1440")    
+    [void]$imageComboBox.items.add("5120x1440")
+    [void]$imageComboBox.items.add("1200x1200")   
     $imageComboBox.SelectedIndex = $imageComboBox.FindStringExact("$global:imageWidth" + "x" + "$global:imageHeight")
     $imageComboBox.Add_SelectedValueChanged({
         $global:imageWidth  = [int]$imageComboBox.Text.Split("x")[0]
@@ -603,7 +604,7 @@ Function ProcessCollage
     {
         if($Global:default_output_path -and (test-path -literalpath $Global:default_output_path))
         {
-            $files = Get-ChildItem -literalpath $Global:default_input_path -Recurse | where {$_.extension -in ".png",".jpg",".jpeg",".bmp",".tiff",".gif"}
+            $files = Get-ChildItem -literalpath $Global:default_input_path -Recurse | where {$_.extension -in ".png",".jpg",".jpeg",".bmp",".tiff",".gif",".webp"}
         }
         else
         {
@@ -630,10 +631,14 @@ Function ProcessCollage
         $progressBar1.Size = $System_Drawing_Size
         $formGraphics = $mainForm.createGraphics() 
         
-        $Global:outFile = $Global:default_output_path + "\"  + "Collage_" + (Get-Date -UFormat %Y%m%d_%H%M%S) + ".bmp"
+        $super_name = Split-Path $Global:default_input_path -Leaf
+
+
+        $Global:outFile = $Global:default_output_path + "\"  + "$super_name" + "_Collage_" + $global:imageWidth +"x" + $global:imageHeight + "_" + (Get-Date -UFormat %Y%m%d_%H%M%S) + ".bmp"
         ##################################################################################
         ###########Build Collage Job
         $build_collage = {
+
             $save_timer = Get-Date
             Add-Type -Assembly System.Windows.Forms
             Add-Type -Assembly System.Drawing
@@ -706,6 +711,7 @@ Function ProcessCollage
                 $i++
                 $file_number = Get-Random -minimum 0 -maximum $files.count
                 $fileName = $files[$file_number].FullName
+
                 
                 Try
                 {
@@ -840,7 +846,7 @@ Function ProcessCollage
                     else
                     {
                         ##Update Progress Bar
-                        $status = (($i/ $Global:default_pic_number) * 100)
+                        [int]$status = (($i/ $Global:default_pic_number) * 100)
                         if($status -gt 100){$status = 100;}
                         write-output $status
                     }
@@ -860,6 +866,8 @@ Function ProcessCollage
         }
         ##################################################################################
         ###########Start Job and Display Updates
+        $script:load_image_timer = Get-Date
+        $first = 1;
         $Global:job = Start-Job -ScriptBlock  $build_collage
         Do {[System.Windows.Forms.Application]::DoEvents() 
             $status = $Global:job.ChildJobs.Output | Select-Object -Last 1
@@ -869,18 +877,32 @@ Function ProcessCollage
             }
             else
             {   
-                sleep 2
-                if(Test-Path $Global:outFile)
+                $duration = (Get-Date) - $script:load_image_timer
+                if(($duration.TotalSeconds -gt 3) -or ($first -eq 1))
                 {
-                    $bitmap = [System.Drawing.Image]::Fromfile($Global:outFile);
-                    if($bitmap)
+                    $first = 2;
+                    #write-host $Global:job.ChildJobs.Output
+                    $script:load_image_timer = Get-Date
+                    if(Test-Path $Global:outFile)
                     {
-                        $formGraphics.DrawImage($bitmap, 530, 15, $wwidth, $wheight)
-                        $bitmap.Dispose()
-                    }
-                    else
-                    {
-                        write-host failed
+                        try
+                        {
+                            $bitmap = [System.Drawing.Image]::Fromfile($Global:outFile);
+
+                            if($bitmap)
+                            {
+                                $formGraphics.DrawImage($bitmap, 530, 15, $wwidth, $wheight)
+                                $bitmap.Dispose()
+                            }
+                            else
+                            {
+                                write-host Failed
+                            }
+                        }
+                        catch
+                        {
+                            write-host Failed to Update Preview
+                        }
                     }
                 }
             }
