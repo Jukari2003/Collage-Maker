@@ -1,6 +1,9 @@
 Creates Desktop Collages 
 
+Interface Example:
 ![alt text](https://github.com/Jukari2003/Collage-Maker/blob/main/Preview.png?raw=true)
+
+Video Collage Output Example:
 ![alt text](https://github.com/Jukari2003/Collage-Maker/blob/main/Batman%20Preview.gif?raw=true)
 
 
