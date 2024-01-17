@@ -939,11 +939,11 @@ function check_settings
         $errors += "Invalid FFmpeg Location"
 
     }
-    if(($script:default_output_path -le 3) -or (!(Test-Path -literalpath "$script:default_output_path" -PathType Container)))
+    if(($script:default_output_path.length -le 3) -or (!(Test-Path -literalpath "$script:default_output_path" -PathType Container)))
     {
         $errors += "Invalid Output Directory"
     }
-    if(($script:default_input_path -le 3) -or (!(Test-Path -literalpath "$script:default_input_path" -PathType Container)))
+    if(($script:default_input_path.length -le 3) -or (!(Test-Path -literalpath "$script:default_input_path"  -PathType Container)))
     {
         $errors += "Invalid Input Directory"
     }
