@@ -20,6 +20,9 @@
         #Switched to FFmpeg Image placement (More Stable)
         #Improved Interface
 
+# Ver 3.1 - 17 Jan 2023
+        #Fixed issue with network drives
+
 ################################################################################
 ######Global Variables##########################################################
 clear-host
